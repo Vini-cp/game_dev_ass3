@@ -143,7 +143,6 @@ function Board:calculateMatches()
             if self.tiles[y][x].color == colorToMatch then
                 matchNum = matchNum + 1
             else
-                colorToMatch = self.tiles[y][x].color
 
                 if matchNum >= 3 then
                     local match = {}
@@ -165,6 +164,8 @@ function Board:calculateMatches()
 
                 matchNum = 1
 
+                colorToMatch = self.tiles[y][x].color
+                
                 -- don't need to check last two if they won't be in a match
                 if y >= 7 then
                     break
