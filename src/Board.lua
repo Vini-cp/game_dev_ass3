@@ -302,80 +302,38 @@ function Board:render()
 end
 
 
-function Board:checkMatches()
+function Board:checkMatches(real_board)
 
+    local test_board = real_board
     local matches = {}
 
-    -- how many of the same color blocks in a row we've found
-    local matchNum = 1
+    test_board.boardHighlightY = 1
+    test_board.boardHighlightX = 1
 
-    -- horizontal matches first
-    for y = 1, 8 do
-        local colorToMatch = self.tiles[y][1].color
+    for y = 1, 8 do        
+        for x = 1, 8 do
 
-        matchNum = 1
-        
-        -- every horizontal tile
-        for x = 2, 8 do
-            -- if this is the same color as the one we're trying to match...
-            if self.tiles[y][x].color == colorToMatch then
-                matchNum = matchNum + 1
-            else
-
-                -- if we have a match of 3 or more up to now, add it to our matches table
-                if matchNum >= 3 then
-                    local match = {}
-
-                    if colorToMatch == 18 then
-                        for x2 = 1, 8 do
-                            -- add each tile to the match that's in that match
-                            table.insert(match, self.tiles[y][x2])
+            if next(matches) == nil then
+            
+                test_board.boardHighlightY = math.max(0, self.boardHighlightY - 1)
+                matches = self.Board:calculateMatches{}
+            
+                if next(matches) == nil then
+                    self.boardHighlightY = math.min(7, self.boardHighlightY + 1)
+                    matches = self.Board:calculateMatches{}
+                
+                    if next(matches) == nil then
+                        self.boardHighlightX = math.max(0, self.boardHighlightX - 1)
+                        matches = self.Board:calculateMatches{}
+                
+                        if next(matches) == nil then
+                            self.boardHighlightX = math.min(7, self.boardHighlightX + 1)
+                            matches = self.Board:calculateMatches{}
                         end
-
-                        -- add this match to our total matches table
-                        table.insert(matches, match)
-                    else
-                        -- go backwards from here by matchNum
-                        for x2 = x - 1, x - matchNum, -1 do
-                            -- add each tile to the match that's in that match
-                            table.insert(match, self.tiles[y][x2])
-                        end
-
-                        -- add this match to our total matches table
-                        table.insert(matches, match)
                     end
                 end
-
-                -- set this as the new color we want to watch for
-                colorToMatch = self.tiles[y][x].color
-                
-                -- don't need to check last two if they won't be in a match
-                if x >= 7 then
-                    break
-                end
-
-                matchNum = 1
             end
-        end
 
-        -- account for the last row ending with a match
-        if matchNum >= 3 then
-            local match = {}
-
-            if colorToMatch == 18 then
-                -- go backwards from end of last row by matchNum
-                for x = 1, 8 do
-                    table.insert(match, self.tiles[y][x])
-                end
-
-                table.insert(matches, match)
-            else
-                -- go backwards from end of last row by matchNum
-                for x = 8, 8 - matchNum + 1, -1 do
-                    table.insert(match, self.tiles[y][x])
-                end
-                
-                table.insert(matches, match)
-            end
         end
     end
+end

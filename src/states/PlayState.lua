@@ -73,7 +73,7 @@ end
 
 function PlayState:update(dt)
 
-    -- local shuffle = self.board:checkMatches()
+    -- local shuffle = Board:checkMatches(self.board)
 
     -- if shuffle then
     --     self.board:shuffleTiles()
