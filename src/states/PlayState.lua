@@ -214,7 +214,7 @@ function PlayState:calculateMatches(x,y)
         -- add score and time for each match
         for k, match in pairs(matches) do
             for l, match2 in pairs(match) do
-                self.score = self.score + match2.variety * 1
+                self.score = self.score + match2.variety * 50
             end
             self.timer = self.timer + #match * 1
         end
