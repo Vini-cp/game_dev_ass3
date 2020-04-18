@@ -73,8 +73,6 @@ function Board:calculateMatches()
             if self.tiles[y][x].color == colorToMatch then
                 matchNum = matchNum + 1
             else
-                -- set this as the new color we want to watch for
-                colorToMatch = self.tiles[y][x].color
 
                 -- if we have a match of 3 or more up to now, add it to our matches table
                 if matchNum >= 3 then
@@ -100,6 +98,9 @@ function Board:calculateMatches()
                     end
                 end
 
+                -- set this as the new color we want to watch for
+                colorToMatch = self.tiles[y][x].color
+                
                 -- don't need to check last two if they won't be in a match
                 if x >= 7 then
                     break
