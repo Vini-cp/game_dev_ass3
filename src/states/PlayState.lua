@@ -73,6 +73,12 @@ end
 
 function PlayState:update(dt)
 
+    -- local shuffle = self.board:checkMatches()
+
+    -- if shuffle then
+    --     self.board:shuffleTiles()
+    -- end
+
     if love.keyboard.wasPressed('escape') then
         love.event.quit()
     end
